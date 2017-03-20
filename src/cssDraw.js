@@ -9,57 +9,87 @@ const defaultStyle = {
 	color: '#000000'
 };
 
-cssDraw.extend('circle', function (r) {
-	let circle = new this.Element({
-		borderRadius: '50%'
-	});
-	circle.size(r, r);
+function line (w, h, color) {
+	let line = new this.Graph();
+	let color = defaultStyle.color || '#000000';
+	line.size(w, 0);
+	line.style({
+		borderTopWidth: h + line.$unit,
+		borderTopStyle: 'solid',
+		borderTopColor: color
+	})
 
-	return circle;
+	return line;
+}
+
+cssDraw.extend('empty', function (fontSize = '14px') {
+	return new this.Graph({
+		fontSize: fontSize,
+		background: '#ffffff'
+	})
+	.setUnit('em')
+	.size(1, 1);
+})
+
+cssDraw.extend('line', function (w, h) {
+	
+
+	return this.empty().use(line);
+})
+
+cssDraw.extend('circle', function (r) {
+	return this.empty().use(this.line(r, r).style({borderRadius: '50%'}));
 });
 
 cssDraw.extend('rect', function (w, h) {
-	let rect = new this.Element();
+	let rect = new this.Graph();
 	rect.size(w, h);
 
 	return rect;
 });
 
-cssDraw.extend('trangle', function (bottom, left, right, deg, color) {
-	let trangle = new this.Element();
-		color = color || '#dddddd';
+cssDraw.extend('trangle', function (bottom, left, right) {
+	let trangle = new this.Graph();
+		trangle.name = 'trangle';
+		let color = defaultStyle.color || '#dddddd';
 	trangle.style({
 		borderWidth: 0,
 		borderBottom: bottom + trangle.$unit + ' solid ' + color,
 		borderLeft: left + trangle.$unit + ' solid transparent',
-		borderRight: right + trangle.$unit + ' solid transparent',
-		transform: "rotate(" + deg + "deg)"
+		borderRight: right + trangle.$unit + ' solid transparent'
 	});
-	return trangle;
+
+	return this.empty().use(trangle.transform({
+		scale: 'scale(0.5)',
+		translateX: 'translateX(-1' + trangle.$unit + ')'
+	}));
 });
 
 cssDraw.extend('leftArrow', function (size, color) {
 	let arrow = new this.Graph();
 		color = color || '#000000';
 
-		arrow.size(size*2, size*2);
-	let trangle = this.trangle(size, size, size, -90, color);
-		trangle.style({
-			top: (size/2) + trangle.$unit,
-			left: -(size/2) + trangle.$unit
-		});
+		arrow.size(2, 1);
+	let trangle = this.trangle(size, size, size);
+		trangle.transform({
+			rotate: 'rotate(-90deg)'
+		})
 
-	let rect = this.rect(size, size);
-		rect.style({
-			background: color,
-			top: size - size/2 + rect.$unit,
-			left: size + rect.$unit
+	let line = this.line(size, size/2, color);
+		line.style({
+			top: -1 + line.$unit,
+			left: -0.5 + line.$unit
 		});
 
 	arrow.use(trangle);
-	arrow.use(rect);
+	arrow.use(line);
 
-	return arrow;
+	arrow.transform({
+		//scale: 'scale(0.5)',
+		//translate: 'translate(-50%, -50%)'
+	})
+
+	return this.empty().use(arrow);
 });
 
 cssDraw.extend('rightArrow', function (size, color) {

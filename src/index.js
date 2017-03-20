@@ -98,9 +98,15 @@ class Base {
 	}
 
 	borderColor (color) {
-		this.style({
-			borderColor: color
-		});
+		if (this.name === 'trangle') {
+			this.style({
+				borderBottomColor: color
+			});
+		} else {
+			this.style({
+				borderColor: color
+			});
+		}
 
 		return this;
 	}
@@ -116,6 +122,8 @@ class Base {
 			this.styleObj[attr] = val;
 		});
 		this.style(this.styleObj);
+
+		return this;
 	} 
 
 	size (x, y) {
@@ -302,22 +310,22 @@ class Element extends Base {
 		str += this._borderAttrs.left;
 
 		this.style({
-			borderShadow: str
+			boxShadow: str
 		});
 		return this;
 	}
 
-	border (param) {
-		if (!param) {
-			
-		} else if (typeof param === 'string') {
-			Object.keys(this._borderAttrs).forEach((border) => {
-				this._borderAttrs[border] = param;
-			})
-
-			this._borderProcess();
-		} else {
+	border (w, color) {
+		color = color || '#000000';
+		if (typeof w === 'object')  {
 			this._borderAttrs(param);
+		} else if (typeof Number(w) === 'number') {
+			this._borderProcess({
+				top: '0 ' + String(-w) + this.$unit + ' ' + color,
+				right: w + this.$unit + ' 0 ' + color,
+				bottom: '0 ' + w + this.$unit + ' ' + color,
+				left: String(-w) + this.$unit + ' 0 ' + color
+			});
 		}
 
 		return this;
@@ -334,11 +342,6 @@ class Element extends Base {
 	}
 }
 
-let elem = new Element();
-elem.size(10, 10);
-elem.bgColor('red');
-elem.appendTo('#app');
-console.log(elem);
 
 /**
  * graph class
