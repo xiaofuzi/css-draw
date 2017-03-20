@@ -2,6 +2,11 @@
 <html>
 <head>
 	<title>icss library</title>
+	<style type="text/css">
+		#app > span {
+			margin-right: 10px;
+		}
+	</style>
 </head>
 <body>
 	<div id="app">
@@ -40,11 +45,17 @@
 	
 		cssDraw.halfCircle(2, 3)
 			.appendTo('#app');
+
 		cssDraw.plus(1, '#000000')
+			.appendTo('#app');
+
+		cssDraw.minus(1, '#000000')
 			.appendTo('#app');
 
 		cssDraw.heart(1, '#000000')
 			.appendTo('#app');
+
+		cssDraw.asterisk().appendTo('#app');
 	</script>
 </body>
 </html>

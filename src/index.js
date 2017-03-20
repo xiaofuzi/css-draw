@@ -52,6 +52,8 @@ class Base {
 		this.id = uid++;
 		this.styleObj = {};
 
+		this._transformAttrs = {};
+
 		this.defaultStyle(opts);
 	}
 
@@ -93,6 +95,14 @@ class Base {
 				backgroundColor: c
 			});
 		});
+	}
+
+	borderColor (color) {
+		this.style({
+			borderColor: color
+		});
+
+		return this;
 	}
 
 	setUnit (unit) {
@@ -198,6 +208,41 @@ class Base {
 	get html () {
 		return this.$el.outerHTML;
 	}
+
+	_transform (opts = {}) {
+		let _attr = '';
+
+		this._transformAttrs = utils.mergeObj(this._transformAttrs, opts);
+		Object.keys(this._transformAttrs).forEach((attr) => {
+			_attr += this._transformAttrs[attr];
+			_attr += ' ';
+		})
+
+		this.style({
+			transform: _attr
+		})
+	}
+
+	rotate (val) {
+		this._transform({
+			rotate: 'rotate(' + val + 'deg)'
+		});
+		return this;
+	}
+
+	translate (x, y) {
+		x = x || 0;
+		y = y || 0;
+		this._transform({
+			translate: 'translate(' + x + this.$unit + ',' + y + this.$unit + ')'
+		});
+		return this;
+	}
+
+	transform (opts = {}) {
+		this._transform(opts);
+		return this;
+	}
 }
 
 /**
@@ -206,8 +251,94 @@ class Base {
 class Element extends Base {
 	constructor (opts, tagName) {
 		super(opts, tagName);
+
+		this._borderAttrs = {};
+		this.init();
+	}
+
+	init () {
+		this.style({
+			borderTopStyle: 'solid'
+		});
+
+		this._borderAttrs = {
+			top: '',
+			right: '',
+			bottom: '',
+			left: ''
+		};
+	}
+
+	size (x, y) {
+		this.w = x;
+		this.h = y;
+	}
+
+	/**
+	 * css 样式无关属性
+	 */
+	bgColor (color) {
+		if (!color) {
+			return this.$el.style.borderTopColor;
+		} else {
+			this.style({
+				borderTopColor: color
+			})
+		}
+
+		return this;
+	}
+
+	/**
+	 * @private
+	 */
+	_borderProcess (obj = {}) {
+		this._borderAttrs = utils.mergeObj(this._borderAttrs, obj);
+		let str = '';
+		
+		str += this._borderAttrs.top + ', ';
+		str += this._borderAttrs.right + ', ';
+		str += this._borderAttrs.bottom + ', ';
+		str += this._borderAttrs.left;
+
+		this.style({
+			borderShadow: str
+		});
+		return this;
+	}
+
+	border (param) {
+		if (!param) {
+			
+		} else if (typeof param === 'string') {
+			Object.keys(this._borderAttrs).forEach((border) => {
+				this._borderAttrs[border] = param;
+			})
+
+			this._borderProcess();
+		} else {
+			this._borderAttrs(param);
+		}
+
+		return this;
+	}
+
+	get h () {
+		return this.$el.style.borderTopWidth;
+	}
+
+	set h (val) {
+		this.style({
+			borderTopWidth: val + this.$unit
+		});
 	}
 }
+
+let elem = new Element();
+elem.size(10, 10);
+elem.bgColor('red');
+elem.appendTo('#app');
+console.log(elem);
 
 /**
  * graph class
@@ -216,19 +347,34 @@ class Graph extends Base {
 	constructor (opts, tagName = 'span') {
 		super(opts, tagName);
 
-		this.style({
-			fontSize: '14px'
-		});
-
 		this.setUnit('em');
 	}
 
 	use (element) {
-		element.setUnit('em');
-		element.appendTo(this.$el);
-		element.style({
-			position: 'absolute'
-		});
+		if (!element) {
+
+		} else if (Array.isArray(element)) {
+			element.forEach((el) => {
+				_process.call(this, el);
+			});
+		} else {
+			_process.call(this, element);
+		}
+
+		function _process (el) {
+			if (!el) {
+				console.error(el + ' is not an Element instance!');
+			} else {
+				el.setUnit('em');
+				el.appendTo(this.$el);
+				el.style({
+					position: 'absolute'
+				});
+				el.borderColor('inherit');
+			}
+		}
+
+		return this;
 	}
 }
 
