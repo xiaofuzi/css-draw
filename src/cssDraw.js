@@ -1,4 +1,5 @@
 import Drawer from './index.js';
+import primitive from './primitive.js';
 
 let cssDraw = Drawer();
 if (window) {
@@ -6,21 +7,9 @@ if (window) {
 }
 
 const defaultStyle = {
-	color: '#000000'
+	color: '#000000',
+	bgColor: '#ffffff'
 };
-
-function line (w, h, color) {
-	let line = new this.Graph();
-	let color = defaultStyle.color || '#000000';
-	line.size(w, 0);
-	line.style({
-		borderTopWidth: h + line.$unit,
-		borderTopStyle: 'solid',
-		borderTopColor: color
-	})
-
-	return line;
-}
 
 cssDraw.extend('empty', function (fontSize = '14px') {
 	return new this.Graph({
@@ -31,65 +20,50 @@ cssDraw.extend('empty', function (fontSize = '14px') {
 	.size(1, 1);
 })
 
-cssDraw.extend('line', function (w, h) {
-	
-
-	return this.empty().use(line);
-})
-
-cssDraw.extend('circle', function (r) {
-	return this.empty().use(this.line(r, r).style({borderRadius: '50%'}));
+cssDraw.extend('circle', function (r = 1) {
+	return this.empty().use(primitive.circle(r));
 });
 
-cssDraw.extend('rect', function (w, h) {
-	let rect = new this.Graph();
-	rect.size(w, h);
-
-	return rect;
-});
-
-cssDraw.extend('trangle', function (bottom, left, right) {
-	let trangle = new this.Graph();
-		trangle.name = 'trangle';
-		let color = defaultStyle.color || '#dddddd';
-	trangle.style({
-		borderWidth: 0,
-		borderBottom: bottom + trangle.$unit + ' solid ' + color,
-		borderLeft: left + trangle.$unit + ' solid transparent',
-		borderRight: right + trangle.$unit + ' solid transparent'
+cssDraw.extend('rect', function (w = 1, h = 1) {
+	let rect = primitive.line(w, h);
+	rect.style({
+		top: '50%',
+		marginTop: -(Number(h)/2) + rect.$unit
 	});
+
+	return this.empty().use(rect);
+});
+
+cssDraw.extend('trangle', function (bottom = 1, left = 1, right = 1) {
+	let trangle = primitive.trangle(bottom, left, right);
 
 	return this.empty().use(trangle.transform({
 		scale: 'scale(0.5)',
-		translateX: 'translateX(-1' + trangle.$unit + ')'
+		translateX: 'translateX(-50%)'
 	}));
 });
 
 cssDraw.extend('leftArrow', function (size, color) {
 	let arrow = new this.Graph();
-		color = color || '#000000';
+		color = color || defaultStyle.color;
 
-		arrow.size(2, 1);
-	let trangle = this.trangle(size, size, size);
+		arrow.size(2*size, size);
+	let trangle = primitive.trangle(size/2, size/2, size/2);
 		trangle.transform({
-			rotate: 'rotate(-90deg)'
+			rotate: 'rotate(-90deg)',
+			translateX: 'translateX(' + String(-size/4) + trangle.$unit + ')'
 		})
-
-	let line = this.line(size, size/2, color);
-		line.style({
-			top: -1 + line.$unit,
-			left: -0.5 + line.$unit
+	let unit = trangle.$unit;
+	let line = primitive.line(size, size/2, color)
+		.style({
+			top: size/4 + unit,
+			left: size/2 + unit
 		});
 
 	arrow.use(trangle);
 	arrow.use(line);
 
-	arrow.transform({
-		//scale: 'scale(0.5)',
-		//translate: 'translate(-50%, -50%)'
-	})
-
-	return this.empty().use(arrow);
+	return this.empty().size(2, 1).use(arrow);
 });
 
 cssDraw.extend('rightArrow', function (size, color) {
@@ -98,100 +72,70 @@ cssDraw.extend('rightArrow', function (size, color) {
 		transform: 'rotate(180deg)'
 	});
 
-	return arrow;
+	return this.empty().size(2, 1).use(arrow);
 });
 
 
-cssDraw.extend('plus', function (size, color) {
+cssDraw.extend('plus', function () {
 	let plus = new this.Graph();
 		plus.size(1, 1);
-	let unit = plus.$unit;
-	color = color || '#000000';
-	let rect01 = this.rect(size, size/3)
-		.style({
-			background: color
-		});
+	let rect01 = primitive.line(1, 0.3);
 
-	let rect02 = this.rect(size, size/3)
-		.style({
-			background: color,
-			transform: 'rotate(90deg)'
-		});
-
+	let rect02 = primitive.line(1, 0.3)
+					.rotate(90)
 	plus.use(rect01);
 	plus.use(rect02);
 
 	plus.transform({
-		transform: 'translateY(' + size/3 + unit + ')'
+		translateY: 'translateY(0.35em)'
 	})
 
-	let wrap = new this.Graph().size(1, 1).use(plus);
-
+	let wrap = this.empty().use(plus);
 	return wrap;
 });
 
 cssDraw.extend('minus', function (size, color) {
-	let minus = new this.Graph();
-		minus.size(size, size);
-	let unit = minus.$unit;
-	color = color || '#000000';
-	let rect01 = this.rect(size, size/3)
-		.style({
-			background: color
+	let minus = new this.Graph().size(1, 1);
+		let line = primitive.line(1, 0.3);
+
+		minus.use(line);
+		minus.transform({
+			translateY: 'translateY(0.35em)'
 		});
-
-	minus.use(rect01);
-
-	minus.transform({
-		transform: 'translateY(' + size/3 + unit + ')'
-	})
-
-	let wrap = new this.Graph().size(1, 1).use(minus);
-
-	return wrap;
+	return minus;
 });
 
-cssDraw.extend('halfCircle', function (r, w, color) {
-	let halfCircle = new this.Graph()
-		.size(w, r);
-
-	color = color || '#000000';
-	let unit = halfCircle.$unit;
-	halfCircle.bgColor(color)
-		.style({
-			borderTopLeftRadius: r + unit,
-			borderBottomLeftRadius: r + unit
-		});
-	return halfCircle;
-})
-
-cssDraw.extend('heart', function (size, color) {
+cssDraw.extend('heart', function () {
 	let heart = new this.Graph()
-		.size(size, size);
+		.size(1, 1);
 
-	let heartWrap = new this.Graph().size(size, size);
-	color = color || '#000000';
-	let unit = heart.$unit;
-	let g01 = this.halfCircle(1*size, (8/5)*size)
-		.style({
-			transform: 'rotate(45deg)'
-		});
-	let g02 = this.halfCircle(1*size, (8/5)*size)
-		.style({
-			left: size*(2/5) + unit,
-			transform: 'rotate(135deg)'
-		});
+	let h01 = primitive.halfCircleBox(0.14, 1)
+					.rotate(-45);
+	let h02 = primitive.halfCircleBox(0.14, 1)
+				.rotate(45)
+				.style({
+					left: '1.1em'
+				});
 
-	heartWrap.use(g01);
-	heartWrap.use(g02);
+	let line01 = primitive.line(1.1, 0.14)
+					.rotate(45)
+					.style({
+						top: '1.15em',
+						left: '0.15em'
+					});
+	let line02 = primitive.line(1.1, 0.14)
+					.rotate(-45)
+					.style({
+						top: '1.15em',
+						left: '0.95em'
+					});				
 
-	heartWrap.transform({
-		scale: 'scale(0.6, 0.6)',
-		translateX: 'translateX(' + -size * (2/5) + unit + ')'
-	});
+	heart.use([h01, h02, line01, line02]);
+	heart.transform({
+		scale: 'scale(0.6)'
+	})
 
-	heart.use(heartWrap);
-	return heart;
+	return this.empty().size(2, 1).use(heart);
 })
 
 cssDraw.extend('asterisk', function (size = 14, color) {

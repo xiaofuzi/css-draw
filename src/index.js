@@ -256,89 +256,29 @@ class Base {
 /**
  * element class
  */
-class Element extends Base {
+export class Element extends Base {
 	constructor (opts, tagName) {
 		super(opts, tagName);
-
-		this._borderAttrs = {};
-		this.init();
 	}
 
-	init () {
+	radius (val) {
 		this.style({
-			borderTopStyle: 'solid'
+			borderRadius: typeof val === 'number' ? val + this.$unit : val
 		});
 
-		this._borderAttrs = {
-			top: '',
-			right: '',
-			bottom: '',
-			left: ''
-		};
+		return this;
 	}
 
-	size (x, y) {
-		this.w = x;
-		this.h = y;
-	}
-
-	/**
-	 * css 样式无关属性
-	 */
-	bgColor (color) {
-		if (!color) {
-			return this.$el.style.borderTopColor;
-		} else {
+	border (val) {
+		if (typeof val === 'string') {
 			this.style({
-				borderTopColor: color
+				border: val
+			});
+		} else if (typeof val === 'number') {
+			this.style({
+				border: val + this.$unit + ' solid #000000'
 			})
 		}
-
-		return this;
-	}
-
-	/**
-	 * @private
-	 */
-	_borderProcess (obj = {}) {
-		this._borderAttrs = utils.mergeObj(this._borderAttrs, obj);
-		let str = '';
-		
-		str += this._borderAttrs.top + ', ';
-		str += this._borderAttrs.right + ', ';
-		str += this._borderAttrs.bottom + ', ';
-		str += this._borderAttrs.left;
-
-		this.style({
-			boxShadow: str
-		});
-		return this;
-	}
-
-	border (w, color) {
-		color = color || '#000000';
-		if (typeof w === 'object')  {
-			this._borderAttrs(param);
-		} else if (typeof Number(w) === 'number') {
-			this._borderProcess({
-				top: '0 ' + String(-w) + this.$unit + ' ' + color,
-				right: w + this.$unit + ' 0 ' + color,
-				bottom: '0 ' + w + this.$unit + ' ' + color,
-				left: String(-w) + this.$unit + ' 0 ' + color
-			});
-		}
-
-		return this;
-	}
-
-	get h () {
-		return this.$el.style.borderTopWidth;
-	}
-
-	set h (val) {
-		this.style({
-			borderTopWidth: val + this.$unit
-		});
 	}
 }
 
@@ -346,7 +286,7 @@ class Element extends Base {
 /**
  * graph class
  */
-class Graph extends Base {
+export class Graph extends Base {
 	constructor (opts, tagName = 'span') {
 		super(opts, tagName);
 
