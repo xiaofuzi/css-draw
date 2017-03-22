@@ -138,6 +138,135 @@ cssDraw.extend('heart', function () {
 	return this.empty().size(2, 1).use(heart);
 })
 
+cssDraw.extend('navLeft', function () {
+	let _icon = new this.Graph()
+			.size(1, 1)
+			.style({
+				background: 'transparent'
+			});
+	let line01 = primitive.line(1, 0.2)
+					.style({
+						top: '0',
+						left: '0'
+					});
+	let line02 = primitive.line(1, 0.2)
+					.rotate(90)
+					.style({
+						top: '-0.45em',
+						left: '0.45em'
+					});
+	_icon.use([line01, line02])
+			.rotate(135)
+			.transform({
+				scale: 'scale(0.7)',
+				translate: 'translate(0em, 0.7em)'
+			})
+
+	return this.empty().size(1, 1).use(_icon);
+})
+
+cssDraw.extend('rectCirlle', function (rate = 1.5) {
+	let icon = new this.Graph().size(1, 1);
+		let circle01 = primitive.halfCircle(1)
+						.style({
+							top: '0.25em'
+						})
+						.rotate(-90);
+		let r2 = 1/rate;
+		let circle02 = primitive.halfCircle(r2)
+							.style({
+								top: 0.34 + 'em',
+								left: 1.45 + 'em'
+							})
+							.rotate(90);
+
+		let trap = primitive.trangle(1, (1-r2)/2, (1-r2)/2)
+						.style({
+							width: r2 + 'em',
+							top: 0.01 + 'em',
+							left: 0.74 + 'em',
+							borderBottomLeftRadius: '50%',
+							borderBottomRightRadius: '50%'
+						})
+						.rotate(90);
+		icon.use([circle02, trap]);
+		return this.empty().size(1, 1).use(icon);
+
+})
+
+cssDraw.extend('envelope', function () {
+	let x1 = 1/4;
+	let x2 = 1/2;
+	let circle01 = primitive.trangle(x1, x1, x1)
+					.style({
+						bottom: 0,
+						left: x1/2 + 'em'
+					});
+	let circle02 = primitive.trangle(x1, x1, x1)
+					.style({
+						bottom: 0,
+						left: x1 + x1/2 + 'em'
+					});
+	let circle03 = primitive.trangle(x1, x1, x1)
+					.style({
+						top: x1*2 + 'em',
+						left: 0
+					})
+					.rotate(90);
+	let circle04 = primitive.trangle(x1, x1, x1)
+					.style({
+						top: x1*2 + 'em',
+						right: 0
+					})
+					.rotate(-90);
+	let circle05 = primitive.trangle(x2, x2, x2)
+					.style({
+						top: x1*(3/4) + 'em'
+					})
+					.rotate(180)
+					.transform({
+						scale: 'scale(0.75)'
+					})
+	let icon = new this.Graph().size(1, 1).use([circle01, circle02, circle03, circle04, circle05]);
+		icon.transform({
+			translateY: 'translateY(-0.125em)'
+		})
+	return this.empty().size(1, 1).use(icon);
+})
+
+cssDraw.extend('pencil', function () {
+	let icon = new this.Graph().size(1, 1);
+	let trangle = primitive.trangle(1/4, 1/4, 1/4)
+					.style({
+						left: 0.075 + 'em'
+					})
+					.rotate(-90)
+					.transform({
+						scale: 'scale(0.5)'
+					})
+
+	let body = primitive.line(1/2, 1/4)
+					.style({
+						left: 1/2 + 'em'
+					})
+
+	let end = primitive.line(1/8, 1/4)
+					.style({
+						left: 1.125 + 'em'
+					})
+
+	icon.use([trangle, body, end]);
+
+	icon.transform({
+		scale: 'scale(1)'
+	})
+	.rotate(-45)
+	.style({
+		top: 0.5 + 'em'
+	});
+	return this.empty().use(icon);
+})
+
 cssDraw.extend('asterisk', function (size = 14, color) {
 	let asterisk = new this.Graph().size(1, 1)
 		.style({
@@ -161,4 +290,5 @@ cssDraw.extend('asterisk', function (size = 14, color) {
 	asterisk.use(wrap);
 
 	return asterisk;
-})
+});
+
