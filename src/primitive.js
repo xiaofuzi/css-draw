@@ -78,7 +78,7 @@ graph.rect = function (w, h, color) {
 	return _rect;
 }
 
-graph.trangle = function (bottom, left, right, color) {
+graph.trangle = function (bottom = 1, left = 1, right = 1, color) {
 	let _trangle = new Element();
 	color = color || defaultStyle.color;
 	_trangle.style({

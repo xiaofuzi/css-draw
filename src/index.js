@@ -311,7 +311,8 @@ export class Graph extends Base {
 				el.setUnit('em');
 				el.appendTo(this.$el);
 				el.style({
-					position: 'absolute'
+					position: 'absolute',
+					background: 'transparent'
 				});
 				el.borderColor('inherit');
 			}
