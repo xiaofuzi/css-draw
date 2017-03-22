@@ -109,34 +109,72 @@ cssDraw.extend('heart', function () {
 	let heart = new this.Graph()
 		.size(1, 1);
 
-	let h01 = primitive.halfCircleBox(0.14, 1)
+	let h01 = primitive.halfCircleBox(1, 14)
 					.rotate(-45);
-	let h02 = primitive.halfCircleBox(0.14, 1)
+	let h02 = primitive.halfCircleBox(1, 14)
 				.rotate(45)
 				.style({
-					left: '1.1em'
+					left: '15.5em'
 				});
 
-	let line01 = primitive.line(1.1, 0.14)
+	let line01 = primitive.line(15, 1)
 					.rotate(45)
 					.style({
-						top: '1.15em',
-						left: '0.15em'
+						top: '16.8em',
+						left: '3.2em'
 					});
-	let line02 = primitive.line(1.1, 0.14)
+	let line02 = primitive.line(15.5, 1)
 					.rotate(-45)
 					.style({
-						top: '1.15em',
-						left: '0.95em'
+						top: '16.5em',
+						left: '13.2em'
 					});				
 
 	heart.use([h01, h02, line01, line02]);
 	heart.transform({
-		scale: 'scale(0.6)'
+		scale: 'scale(0.05)'
+	});
+	heart.style({
+		top: '-0.5em',
+		left: '-0.5em'
 	})
 
-	return this.empty().size(2, 1).use(heart);
-})
+	return this.empty().size(1, 1).use(heart);
+});
+
+cssDraw.extend('solidHeart', function () {
+	let _g = new this.Graph().size(1, 1);
+
+	let circle01 = primitive.circle(3);
+	let circle02 = primitive.circle(3)
+					.style({
+						left: '2em'
+					});
+
+	let line01 = primitive.line(3, 3)
+					.rotate(-45)
+					.style({
+						top: '1em',
+						left: '1em'
+					});
+	let line02 = primitive.line(3, 3)
+					.rotate(45)
+					.style({
+						top: '1em',
+						left: '1em'
+					});
+	_g.transform({
+		scale: 'scale(0.26)'
+	})
+	.style({
+		top: '-0.45em',
+		left: '-0.5em'
+	})
+
+	_g.use([circle01, circle02, line01, line02]);
+			
+	return this.empty().use(_g);
+});
 
 cssDraw.extend('asterisk', function (size = 14, color) {
 	let asterisk = new this.Graph().size(1, 1)
