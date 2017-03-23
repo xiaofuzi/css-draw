@@ -11,18 +11,18 @@ const defaultStyle = {
 	bgColor: '#ffffff'
 };
 
-function iconWrap (fontSize = '14px') {
-	return new this.Graph({
+function iconWrap (fontSize = '48px') {
+	return new cssDraw.Graph({
 		fontSize: fontSize,
-		background: 'transparent'
+		background: 'transparent',
+		position: 'relative'
 	})
 	.setUnit('em')
-	.size(1, 1)
-	.toShadowDom();
+	.size(1, 1);
 }
 
 cssDraw.extend('circle', function (r = 1) {
-	return iconWrap.use(primitive.circle(r));
+	return iconWrap().use(primitive.circle(r));
 });
 
 cssDraw.extend('rect', function (w = 1, h = 1) {
@@ -32,13 +32,13 @@ cssDraw.extend('rect', function (w = 1, h = 1) {
 		marginTop: -(Number(h)/2) + rect.$unit
 	});
 
-	return iconWrap.use(rect);
+	return iconWrap().use(rect);
 });
 
 cssDraw.extend('trangle', function (bottom = 1, left = 1, right = 1) {
 	let trangle = primitive.trangle(bottom, left, right);
 
-	return iconWrap.use(trangle.transform({
+	return iconWrap().use(trangle.transform({
 		scale: 'scale(0.5)',
 		translateX: 'translateX(-50%)'
 	}));
@@ -64,7 +64,7 @@ cssDraw.extend('leftArrow', function (size, color) {
 	arrow.use(trangle);
 	arrow.use(line);
 
-	return iconWrap.size(2, 1).use(arrow);
+	return iconWrap().size(2, 1).use(arrow);
 });
 
 cssDraw.extend('rightArrow', function (size, color) {
@@ -73,7 +73,7 @@ cssDraw.extend('rightArrow', function (size, color) {
 		transform: 'rotate(180deg)'
 	});
 
-	return iconWrap.size(2, 1).use(arrow);
+	return iconWrap().size(2, 1).use(arrow);
 });
 
 
@@ -88,10 +88,10 @@ cssDraw.extend('plus', function () {
 	plus.use(rect02);
 
 	plus.transform({
-		translateY: 'translateY(0.35em)'
+		translate: 'translate(-50%,.35em)'
 	})
 
-	let wrap = iconWrap.use(plus);
+	let wrap = iconWrap().use(plus);
 	return wrap;
 });
 
@@ -100,10 +100,13 @@ cssDraw.extend('minus', function (size, color) {
 		let line = primitive.line(1, 0.3);
 
 		minus.use(line);
-		minus.transform({
-			translateY: 'translateY(0.35em)'
+		minus.style({
+			top: '50%'
 		});
-	return minus;
+		minus.transform({
+			translateY: 'translate(-50%, -12.5%)'
+		})
+	return iconWrap().use(minus);
 });
 
 cssDraw.extend('heart', function () {
@@ -112,35 +115,37 @@ cssDraw.extend('heart', function () {
 
 	let h01 = primitive.halfCircleBox(1, 14)
 					.rotate(-45);
+		h01.y = 5;
 	let h02 = primitive.halfCircleBox(1, 14)
 				.rotate(45)
 				.style({
-					left: '15.5em'
+					left: '14em'
 				});
+		h02.y = 5;
 
-	let line01 = primitive.line(15, 1)
+	let line01 = primitive.line(14, 1)
 					.rotate(45)
 					.style({
-						top: '16.8em',
-						left: '3.2em'
+						top: '19em',
+						left: '2em'
 					});
-	let line02 = primitive.line(15.5, 1)
+	let line02 = primitive.line(14, 1)
 					.rotate(-45)
 					.style({
-						top: '16.5em',
-						left: '13.2em'
+						top: '19em',
+						left: '12em'
 					});				
 
 	heart.use([h01, h02, line01, line02]);
 	heart.transform({
-		scale: 'scale(0.05)'
+		scale: 'scale(0.035)'
 	});
 	heart.style({
 		top: '-0.5em',
 		left: '-0.5em'
 	})
 
-	return iconWrap.size(1, 1).use(heart);
+	return iconWrap().use(heart);
 });
 
 cssDraw.extend('solidHeart', function () {
@@ -165,16 +170,16 @@ cssDraw.extend('solidHeart', function () {
 						left: '1em'
 					});
 	_g.transform({
-		scale: 'scale(0.26)'
+		scale: 'scale(0.16)'
 	})
 	.style({
-		top: '-0.45em',
-		left: '-0.5em'
+		top: '-0.25em',
+		left: '-0.35em'
 	})
 
 	_g.use([circle01, circle02, line01, line02]);
 			
-	return iconWrap.use(_g);
+	return iconWrap().use(_g);
 });
 
 cssDraw.extend('navLeft', function () {
@@ -185,7 +190,7 @@ cssDraw.extend('navLeft', function () {
 			});
 	let line01 = primitive.line(1, 0.2)
 					.style({
-						top: '0',
+						top: '0.05em',
 						left: '0'
 					});
 	let line02 = primitive.line(1, 0.2)
@@ -200,15 +205,17 @@ cssDraw.extend('navLeft', function () {
 				scale: 'scale(0.7)',
 				translate: 'translate(0em, 0.7em)'
 			});
-	_icon.y = '0.325em';
+	_icon.y = '0.35em';
+	_icon.x = '-0.25em';
 
-	return iconWrap.size(1, 1).use(_icon);
+	return iconWrap().size(1, 1).use(_icon);
 })
 
 cssDraw.extend('navRight', function () {
 	let icon = this.navLeft();
 		icon.rotate(180);
-	return iconWrap.use(icon);
+		icon.x = '-0.05em';
+	return iconWrap().use(icon);
 })
 
 cssDraw.extend('close', function () {
@@ -232,7 +239,7 @@ cssDraw.extend('close', function () {
 			top: '0.25em',
 			left: '-0.3em'
 		})
-	return iconWrap.size(1, 1).use(_icon);
+	return iconWrap().size(1, 1).use(_icon);
 })
 
 cssDraw.extend('rectCirlle', function (rate = 1.5) {
@@ -260,7 +267,8 @@ cssDraw.extend('rectCirlle', function (rate = 1.5) {
 						})
 						.rotate(90);
 		icon.use([circle02, trap]);
-		return iconWrap.size(1, 1).use(icon);
+		icon.x = -0.75;
+		return iconWrap().size(1, 1).use(icon);
 
 })
 
@@ -285,8 +293,9 @@ cssDraw.extend('envelope', function () {
 					.rotate(90);
 	let circle04 = primitive.trangle(x1, x1, x1)
 					.style({
-						top: x1*2 + 'em',
-						right: 0
+						top: '0.5em',
+						right: 0,
+						left: '0.5em'
 					})
 					.rotate(-90);
 	let circle05 = primitive.trangle(x2, x2, x2)
@@ -300,8 +309,9 @@ cssDraw.extend('envelope', function () {
 	let icon = new this.Graph().size(1, 1).use([circle01, circle02, circle03, circle04, circle05]);
 		icon.transform({
 			translateY: 'translateY(-0.125em)'
-		})
-	return iconWrap.size(1, 1).use(icon);
+		});
+		icon.x = '-0.005em';
+	return iconWrap().size(1, 1).use(icon);
 })
 
 cssDraw.extend('pencil', function () {
@@ -332,9 +342,10 @@ cssDraw.extend('pencil', function () {
 	})
 	.rotate(-45)
 	.style({
-		top: 0.5 + 'em'
+		top: 0.5 + 'em',
+		left: 0.125 + 'em'
 	});
-	return iconWrap.use(icon);
+	return iconWrap().use(icon);
 })
 
 cssDraw.extend('glass', function () {
@@ -351,17 +362,17 @@ cssDraw.extend('glass', function () {
 		line01.y = 0.75;
 
 	_icon.use([trangle, line, line01]);
-
-	return iconWrap.use(_icon);
+	_icon.x = 0;
+	return iconWrap().use(_icon);
 })
 
 cssDraw.extend('search', function () {
 	let _icon = new this.Graph().size(1, 1);
 	let circle = primitive.circleBox();
-	let line  = primitive.line(1, 0.25)
+	let line  = primitive.line(1, 0.2)
 					.rotate(45);
-		line.x = 0.8;
-		line.y = 1.25;
+		line.x = 0.6;
+		line.y = 1.1;
 
 	_icon.use([circle, line]);
 	_icon.x = -0.25;
@@ -370,31 +381,22 @@ cssDraw.extend('search', function () {
 		scale: 'scale(0.5)'
 	})
 
-	return iconWrap.use(_icon);
+	return iconWrap().use(_icon);
 })
 
-cssDraw.extend('asterisk', function (size = 14, color) {
-	let asterisk = new this.Graph().size(1, 1)
-		.style({
-			fontSize: size + 'px'
-		});
+cssDraw.extend('asterisk', function () {
+	let asterisk = new this.Graph().size(1, 1);
 
-	color = color || defaultStyle.color;
 	let unit = asterisk.$unit;
-	let rects = [0, 1, 2, 3].map((item) => {
-		let rect = this.rect(1, 1/5)
-			.bgColor(color)
+	let lines = [0, 1, 2, 3].map((item) => {
+		let line = primitive.line(1, 1/5)
 			.rotate(item*45);
-		return rect;
+		return line;
 	});
-
-	let wrap = new this.Graph().size(1, 1);
-		wrap.transform({
-				translateY: 'translateY(' + 0.4 + unit + ')'
-			})
-	wrap.use(rects);
-	asterisk.use(wrap);
-
-	return asterisk;
+	asterisk = asterisk.use(lines);
+	asterisk.x = 0;
+	asterisk.y = 0.5;
+	return iconWrap().use(asterisk);
 });
 
+export default cssDraw;

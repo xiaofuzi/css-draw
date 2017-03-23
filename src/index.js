@@ -259,6 +259,16 @@ class Base {
 export class Element extends Base {
 	constructor (opts, tagName) {
 		super(opts, tagName);
+
+		this.init();
+	}
+
+	init () {
+		this.x = 0;
+		this.y = 0;
+		this.style({
+			backgroundColor: 'transparent'
+		});
 	}
 
 	radius (val) {
@@ -290,20 +300,21 @@ export class Graph extends Base {
 	constructor (opts, tagName = 'span') {
 		super(opts, tagName);
 
+		this.$shadowDom = null;
 		this.setUnit('em');
 	}
 
 	toShadowDom () {
-		let dom = this.$el.createShadowRoot();
-		dom.innerHTML = this.$el.html;
-		this.$shadowDom = dom.outerHTML;
-		this.$el.appendChild(dom);
-
-		return this;
+		
 	}
 
-	html () {
-		return this.$shadowDom;
+	shadowDom (tagName = 'i') {
+		let el = doc.createElement(tagName)
+		let dom = el.createShadowRoot();
+		dom.innerHTML = this.$el.outerHTML;
+		this.$shadowDom = dom;
+		console.log(this, el);
+		return el.outerHTML;
 	}
 
 	use (element) {
