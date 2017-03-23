@@ -213,7 +213,7 @@ class Base {
 		return this.$el;
 	}
 
-	get html () {
+	html () {
 		return this.$el.outerHTML;
 	}
 
@@ -291,6 +291,19 @@ export class Graph extends Base {
 		super(opts, tagName);
 
 		this.setUnit('em');
+	}
+
+	toShadowDom () {
+		let dom = this.$el.createShadowRoot();
+		dom.innerHTML = this.$el.html;
+		this.$shadowDom = dom.outerHTML;
+		this.$el.appendChild(dom);
+
+		return this;
+	}
+
+	html () {
+		return this.$shadowDom;
 	}
 
 	use (element) {

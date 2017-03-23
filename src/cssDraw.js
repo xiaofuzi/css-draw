@@ -11,17 +11,18 @@ const defaultStyle = {
 	bgColor: '#ffffff'
 };
 
-cssDraw.extend('empty', function (fontSize = '14px') {
+function iconWrap (fontSize = '14px') {
 	return new this.Graph({
 		fontSize: fontSize,
 		background: 'transparent'
 	})
 	.setUnit('em')
-	.size(1, 1);
-})
+	.size(1, 1)
+	.toShadowDom();
+}
 
 cssDraw.extend('circle', function (r = 1) {
-	return this.empty().use(primitive.circle(r));
+	return iconWrap.use(primitive.circle(r));
 });
 
 cssDraw.extend('rect', function (w = 1, h = 1) {
@@ -31,13 +32,13 @@ cssDraw.extend('rect', function (w = 1, h = 1) {
 		marginTop: -(Number(h)/2) + rect.$unit
 	});
 
-	return this.empty().use(rect);
+	return iconWrap.use(rect);
 });
 
 cssDraw.extend('trangle', function (bottom = 1, left = 1, right = 1) {
 	let trangle = primitive.trangle(bottom, left, right);
 
-	return this.empty().use(trangle.transform({
+	return iconWrap.use(trangle.transform({
 		scale: 'scale(0.5)',
 		translateX: 'translateX(-50%)'
 	}));
@@ -63,7 +64,7 @@ cssDraw.extend('leftArrow', function (size, color) {
 	arrow.use(trangle);
 	arrow.use(line);
 
-	return this.empty().size(2, 1).use(arrow);
+	return iconWrap.size(2, 1).use(arrow);
 });
 
 cssDraw.extend('rightArrow', function (size, color) {
@@ -72,7 +73,7 @@ cssDraw.extend('rightArrow', function (size, color) {
 		transform: 'rotate(180deg)'
 	});
 
-	return this.empty().size(2, 1).use(arrow);
+	return iconWrap.size(2, 1).use(arrow);
 });
 
 
@@ -90,7 +91,7 @@ cssDraw.extend('plus', function () {
 		translateY: 'translateY(0.35em)'
 	})
 
-	let wrap = this.empty().use(plus);
+	let wrap = iconWrap.use(plus);
 	return wrap;
 });
 
@@ -139,7 +140,7 @@ cssDraw.extend('heart', function () {
 		left: '-0.5em'
 	})
 
-	return this.empty().size(1, 1).use(heart);
+	return iconWrap.size(1, 1).use(heart);
 });
 
 cssDraw.extend('solidHeart', function () {
@@ -173,7 +174,7 @@ cssDraw.extend('solidHeart', function () {
 
 	_g.use([circle01, circle02, line01, line02]);
 			
-	return this.empty().use(_g);
+	return iconWrap.use(_g);
 });
 
 cssDraw.extend('navLeft', function () {
@@ -201,13 +202,13 @@ cssDraw.extend('navLeft', function () {
 			});
 	_icon.y = '0.325em';
 
-	return this.empty().size(1, 1).use(_icon);
+	return iconWrap.size(1, 1).use(_icon);
 })
 
 cssDraw.extend('navRight', function () {
 	let icon = this.navLeft();
 		icon.rotate(180);
-	return this.empty().use(icon);
+	return iconWrap.use(icon);
 })
 
 cssDraw.extend('close', function () {
@@ -231,7 +232,7 @@ cssDraw.extend('close', function () {
 			top: '0.25em',
 			left: '-0.3em'
 		})
-	return this.empty().size(1, 1).use(_icon);
+	return iconWrap.size(1, 1).use(_icon);
 })
 
 cssDraw.extend('rectCirlle', function (rate = 1.5) {
@@ -259,7 +260,7 @@ cssDraw.extend('rectCirlle', function (rate = 1.5) {
 						})
 						.rotate(90);
 		icon.use([circle02, trap]);
-		return this.empty().size(1, 1).use(icon);
+		return iconWrap.size(1, 1).use(icon);
 
 })
 
@@ -300,7 +301,7 @@ cssDraw.extend('envelope', function () {
 		icon.transform({
 			translateY: 'translateY(-0.125em)'
 		})
-	return this.empty().size(1, 1).use(icon);
+	return iconWrap.size(1, 1).use(icon);
 })
 
 cssDraw.extend('pencil', function () {
@@ -333,7 +334,7 @@ cssDraw.extend('pencil', function () {
 	.style({
 		top: 0.5 + 'em'
 	});
-	return this.empty().use(icon);
+	return iconWrap.use(icon);
 })
 
 cssDraw.extend('glass', function () {
@@ -351,7 +352,7 @@ cssDraw.extend('glass', function () {
 
 	_icon.use([trangle, line, line01]);
 
-	return this.empty().use(_icon);
+	return iconWrap.use(_icon);
 })
 
 cssDraw.extend('search', function () {
@@ -369,7 +370,7 @@ cssDraw.extend('search', function () {
 		scale: 'scale(0.5)'
 	})
 
-	return this.empty().use(_icon);
+	return iconWrap.use(_icon);
 })
 
 cssDraw.extend('asterisk', function (size = 14, color) {
