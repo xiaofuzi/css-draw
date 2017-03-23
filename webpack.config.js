@@ -2,7 +2,7 @@ module.exports = {
 	entry: './src/cssDraw.js',
 	//entry: './src/primitive.js',
 	output: {
-		path: './dist',
+		path: './docs/dist',
 		filename: '[name].js'
 	},
 	module: {
