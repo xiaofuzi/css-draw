@@ -42,6 +42,8 @@ graph.halfCircle = function (r, color) {
 }
 
 graph.circleBox = function (r1, r2, color1, color2) {
+	r1 = 1/7;
+	r2 = 1;
 	let _circleBox = this.rect(r2, r2, color2);
 		_circleBox.radius('50%');
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>css-icons</title>
+    <link href="http://cdn.bootcss.com/materialize/0.98.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./css/material.css">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="section no-pad-bot" id="index-banner">
+            <div class="container">
+                <h1 class="header center-on-small-only">css-draw.js</h1>
+                <div class="row center">
+                    <h4 class="header col s12 light center">Awesome icon for modern webapps drawed by css.</h4>
+                </div>
+                <div class="row center">
+                    <a href="https://github.com/xiaofuzi/css-draw" id="download-button" class="btn-large waves-effect waves-light">Get started</a>
+                </div>
+                <div class="row center">
+                	<a class="red-text text-lighten-4" target="_blank" href="https://github.com/xiaofuzi/css-draw">Github</a>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+        	<div class="container row icon-container">
+        		<template v-for='item in iconArray'>
+        			<div class="icon-preview col s6 m3">
+        				<span class="icon-wrap" v-html='item.html'></span>
+        				<span>{{item.name}}</span>
+        			</div>
+        		</template>
+        	</div>
+        </div>
+        <div class="github-commit index-banner-footer">
+            <div class="container">
+                <div class="commit">
+                    <span>I hope you like it.</span>
+                    <a href="www.yangxiaofu.com" class="btn-flat right grey-text text-lighten-5 waves-effect waves-light hide-on-small-only">Author: yangxiaofu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript" src='http://cdn.bootcss.com/vue/2.2.4/vue.min.js'></script>
+    <script type="text/javascript" src='../dist/main.js'></script>
+    <script type="text/javascript" src='./index.js'></script>
+</body>
+
+</html>

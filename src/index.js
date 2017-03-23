@@ -169,7 +169,7 @@ class Base {
 
 	set x (val) {
 		this.style({
-			left: val
+			left: parseFloat(val) + this.$unit
 		});
 	}
 
@@ -179,7 +179,7 @@ class Base {
 
 	set y (val) {
 		this.style({
-			top: val
+			top: parseFloat(val) + this.$unit
 		});
 	}
 
@@ -327,12 +327,14 @@ export default function Drawer () {
 
 	api.Element = Element;
 	api.Graph = Graph;
+	api.$icons = [];
 
 	api.extend = function (name, cb) {
 		if (api[name]) {
 			console.warn(name + ' graphCreater was existed.');
 		} else {
 			api[name] = cb.bind(this);
+			api.$icons.push(name);
 		}
 	};
 

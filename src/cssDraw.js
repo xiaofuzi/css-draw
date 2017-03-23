@@ -14,7 +14,7 @@ const defaultStyle = {
 cssDraw.extend('empty', function (fontSize = '14px') {
 	return new this.Graph({
 		fontSize: fontSize,
-		background: '#ffffff'
+		background: 'transparent'
 	})
 	.setUnit('em')
 	.size(1, 1);
@@ -190,16 +190,47 @@ cssDraw.extend('navLeft', function () {
 	let line02 = primitive.line(1, 0.2)
 					.rotate(90)
 					.style({
-						top: '-0.45em',
+						top: '0.45em',
 						left: '0.45em'
 					});
 	_icon.use([line01, line02])
-			.rotate(135)
+			.rotate(-135)
 			.transform({
 				scale: 'scale(0.7)',
 				translate: 'translate(0em, 0.7em)'
-			})
+			});
+	_icon.y = '0.325em';
 
+	return this.empty().size(1, 1).use(_icon);
+})
+
+cssDraw.extend('navRight', function () {
+	let icon = this.navLeft();
+		icon.rotate(180);
+	return this.empty().use(icon);
+})
+
+cssDraw.extend('close', function () {
+	let _icon = new this.Graph()
+			.size(1, 1)
+			.style({
+				background: 'transparent'
+			});
+	let line01 = primitive.line(1, 0.2)
+					.style({
+						top: '0',
+						left: '0'
+					});
+	let line02 = primitive.line(1, 0.2)
+					.rotate(90);
+
+	_icon.use([line01, line02]);
+
+	_icon.rotate(45)
+		.style({
+			top: '0.25em',
+			left: '-0.3em'
+		})
 	return this.empty().size(1, 1).use(_icon);
 })
 
@@ -303,6 +334,42 @@ cssDraw.extend('pencil', function () {
 		top: 0.5 + 'em'
 	});
 	return this.empty().use(icon);
+})
+
+cssDraw.extend('glass', function () {
+	let _icon = new this.Graph().size(1, 1);
+	let trangle = primitive.trangle(0.5, 0.5, 0.5)
+					.rotate(180);
+	let line  = primitive.line(0.5, 0.3)
+					.rotate(90);
+		line.x = 0.25;
+		line.y = 0.4;
+
+	let line01 = primitive.line(0.75, 0.2);
+		line01.x = 0.125;
+		line01.y = 0.75;
+
+	_icon.use([trangle, line, line01]);
+
+	return this.empty().use(_icon);
+})
+
+cssDraw.extend('search', function () {
+	let _icon = new this.Graph().size(1, 1);
+	let circle = primitive.circleBox();
+	let line  = primitive.line(1, 0.25)
+					.rotate(45);
+		line.x = 0.8;
+		line.y = 1.25;
+
+	_icon.use([circle, line]);
+	_icon.x = -0.25;
+	_icon.y = -0.25;
+	_icon.transform({
+		scale: 'scale(0.5)'
+	})
+
+	return this.empty().use(_icon);
 })
 
 cssDraw.extend('asterisk', function (size = 14, color) {

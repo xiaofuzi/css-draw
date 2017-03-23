@@ -1,0 +1,38 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body, #app {
+	height: 100%;
+}
+
+#app {
+	min-height: 400px;
+}
+
+.section {
+	position: relative;
+	min-height: 400px;
+}
+
+.index-banner-footer {
+	position: relative;
+}
+
+.icon-preview {
+	background: #ffffff;
+	text-align: center;
+}
+
+.icon-wrap {
+	display: inline-block;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+}
+
+.icon-preview:hover {
+	background: rgba(0,0,0,0.05);
+}
