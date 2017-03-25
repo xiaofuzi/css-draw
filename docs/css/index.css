@@ -36,3 +36,9 @@ html, body, #app {
 .icon-preview:hover {
 	background: rgba(0,0,0,0.05);
 }
+
+.modal.open {
+	display: block;
+	top: 10%;
+	z-index: 99;
+}

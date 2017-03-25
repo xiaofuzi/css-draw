@@ -300,21 +300,21 @@ export class Graph extends Base {
 	constructor (opts, tagName = 'span') {
 		super(opts, tagName);
 
-		this.$shadowDom = null;
 		this.setUnit('em');
 	}
 
-	toShadowDom () {
-		
-	}
+	createShadowDom (tagName = 'i') {
+		let el = null;
+		if (typeof tagName === 'string') {
+			el = doc.createElement(tagName);
+		} else {
+			el = tagName;
+		}
 
-	shadowDom (tagName = 'i') {
-		let el = doc.createElement(tagName)
+		let innerHTML = this.html();
 		let dom = el.createShadowRoot();
-		dom.innerHTML = this.$el.outerHTML;
-		this.$shadowDom = dom;
-		console.log(this, el);
-		return el.outerHTML;
+			dom.appendChild(this.$el);
+		return el;
 	}
 
 	use (element) {
@@ -346,8 +346,10 @@ export class Graph extends Base {
 	}
 }
 
-export default function Drawer () {
-	let api = {};
+export default function Drawer (opts = {}) {
+	let api = {},
+		attrPrefix = opts.attrPrefix || 'icon',
+		className = opts.className || 'css-icon';
 
 	api.Element = Element;
 	api.Graph = Graph;
@@ -361,6 +363,23 @@ export default function Drawer () {
 			api.$icons.push(name);
 		}
 	};
+
+	api.getIcon = function (iconName) {
+		return api.$icons[iconName];
+	};
+
+	api.render = function (opts = {}) {
+		let icons = doc.querySelectorAll('[class*="' + className + '"]') || [];
+		icons = [].slice.call(icons);
+		icons.forEach((icon) => {
+			let iconName = icon.dataset[attrPrefix];
+			if (opts.shadowDom === true) {
+				api[iconName]().createShadowDom(icon);
+			} else {
+				icon.appendChild(api[iconName]().$el);
+			}
+		});
+	}
 
 	return api;
 }

@@ -9,9 +9,9 @@ var icons = cssDraw.$icons.map(function (icon) {
 
 Vue.config.devtools = true
 
-import vModal from './components/common/Modal.js';
+import vModal from './components/common/Modal.js'
+import vIconpreview from './components/iconPreview/iconPreview.js'
 
-console.log(vModal);
 new Vue({
 	el: '#app',
 	data: {
@@ -19,9 +19,17 @@ new Vue({
         isShowModal: true,
         isShowModalFooter: false
 	},
+	components: {
+		vIconpreview
+	},
     methods: {
         onHide () {
             this.isShowModal = false;
         }
+    },
+    mounted () {
+    	cssDraw.render({
+    		shadowDom: true
+    	});
     }
 })
