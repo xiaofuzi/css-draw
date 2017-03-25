@@ -32,7 +32,7 @@
         			<div class="icon-preview col s6 m3">
         				<!-- <span class="icon-wrap" v-html='item.html'></span>
         				<span>{{item.name}}</span> -->
-                        <i :data-icon='item.name' class="css-icon"></i>
+                        <i :data-icon='item.name' class="css-icon" v-on:click='onClickIcon(item.name)'></i>
         			</div>
         		</template>
         	</div>
@@ -47,9 +47,11 @@
         </div>
         <v-modal
             :is-show='isShowModal'
-            :is-show-modal='isShowModalFooter'>
+            :is-show-footer='isShowModalFooter'
+            v-on:cancel='onHide'>
                 <v-iconpreview
-                	:icon-name='"heart"'></v-iconpreview>
+                	:icon-name='currentIconName'
+                    ></v-iconpreview>
             </v-modal>
     </div>
     <script type="text/javascript" src='http://cdn.bootcss.com/vue/2.2.4/vue.min.js'></script>

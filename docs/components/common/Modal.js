@@ -2,6 +2,9 @@ let templateStr = `
     <div class="modal" :class='modalClass'>
         <div class="modal-content">
             <h4>{{title}}</h4>
+            <div style='position: absolute; width: 100%; padding-right: 50px;text-align:right;'>
+                <i v-on:click='onCancel' data-icon='close' class="css-icon" style='font-size: 14px;'></i>
+            </div>
             <div>
                 <slot></slot>
             </div>
@@ -48,6 +51,7 @@ Vue.component('vModal', {
             this.$emit('ok');
         },
         onCancel () {
+            console.log('cancel');
             this.$emit('cancel');
         }
     }

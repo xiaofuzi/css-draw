@@ -314,6 +314,8 @@ export class Graph extends Base {
 		let innerHTML = this.html();
 		let dom = el.createShadowRoot();
 			dom.appendChild(this.$el);
+		this.$el.style.fontSize = '1em';
+		this.$el.borderColor = 'inherit';
 		return el;
 	}
 
@@ -376,6 +378,7 @@ export default function Drawer (opts = {}) {
 			if (opts.shadowDom === true) {
 				api[iconName]().createShadowDom(icon);
 			} else {
+				api[iconName]().$el.style.fontSize = 'inherit';
 				icon.appendChild(api[iconName]().$el);
 			}
 		});

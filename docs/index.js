@@ -16,15 +16,21 @@ new Vue({
 	el: '#app',
 	data: {
 		iconArray: icons,
-        isShowModal: true,
-        isShowModalFooter: false
+        isShowModal: false,
+        isShowModalFooter: false,
+        currentIconName: ''
 	},
 	components: {
 		vIconpreview
 	},
     methods: {
         onHide () {
+            console.log('onHide');
             this.isShowModal = false;
+        },
+        onClickIcon (name) {
+            this.isShowModal = true;
+            this.currentIconName = name;
         }
     },
     mounted () {

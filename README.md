@@ -37,8 +37,8 @@ cssDraw.render({
 
 ## API
 
-* render
-* extend
+* `render`
+* `extend`
 
 
 * `npm install`

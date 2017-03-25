@@ -34,10 +34,21 @@ export default {
 			type: String
 		}
 	},
+	methods: {
+		onRender () {
+			if (!this.iconName) return ;
+			let iconInstance = cssDraw[this.iconName]();
+			this.iconHtml = iconInstance.html();
+			this.renderHtml = codeWrap(`<i data-icon='${this.iconName}' class="css-icon"></i>`, 'javascript');
+			this.renderedHtml = codeWrap(this.iconHtml);
+		}
+	},
+	watch: {
+		iconName () {
+			this.onRender();
+		}
+	},
 	mounted () {
-		let iconInstance = cssDraw[this.iconName]();
-		this.iconHtml = iconInstance.html();
-		this.renderHtml = codeWrap(`<i data-icon='${this.iconName}' class="css-icon"></i>`, 'javascript');
-		this.renderedHtml = codeWrap(this.iconHtml);
+		this.onRender();
 	}
 }
