@@ -20,6 +20,11 @@ html, body, #app {
 	position: relative;
 }
 
+.icon-container {
+	padding: 10px;
+	background: #ffffff;
+}
+
 .icon-preview {
 	background: #ffffff;
 	text-align: center;
@@ -31,6 +36,16 @@ html, body, #app {
 	height: 50px;
 	line-height: 50px;
 	text-align: center;
+}
+
+.css-icon {
+	position: relative;
+	display: inline-block;
+}
+
+.css-icon i {
+	padding: 0;
+	margin: 0;
 }
 
 .css-icon:hover {
@@ -45,4 +60,8 @@ html, body, #app {
 	display: block;
 	top: 10%;
 	z-index: 99;
+}
+
+.icon-container i {
+	font-size: 24px;
 }

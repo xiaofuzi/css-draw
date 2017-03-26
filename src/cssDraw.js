@@ -22,15 +22,12 @@ function iconWrap (fontSize = '48px') {
 }
 
 cssDraw.extend('circle', function (r = 1) {
-	return iconWrap().use(primitive.circle(r));
+	return iconWrap().use(primitive.circle(r).center());
 });
 
 cssDraw.extend('rect', function (w = 1, h = 1) {
-	let rect = primitive.line(w, h);
-	rect.style({
-		top: '50%',
-		marginTop: -(Number(h)/2) + rect.$unit
-	});
+	let rect = primitive.line(w, h)
+				.center();
 
 	return iconWrap().use(rect);
 });
@@ -38,40 +35,44 @@ cssDraw.extend('rect', function (w = 1, h = 1) {
 cssDraw.extend('trangle', function (bottom = 1, left = 1, right = 1) {
 	let trangle = primitive.trangle(bottom, left, right);
 
-	return iconWrap().use(trangle.transform({
-		scale: 'scale(0.5)',
-		translateX: 'translateX(-50%)'
-	}));
+	return iconWrap().use(
+		trangle
+			.center()
+			.transform({
+				scale: 'scale(0.5)'
+			})
+	);
 });
 
-cssDraw.extend('leftArrow', function (size, color) {
+cssDraw.extend('leftArrow', function () {
 	let arrow = new this.Graph();
-		color = color || defaultStyle.color;
 
-		arrow.size(2*size, size);
-	let trangle = primitive.trangle(size/2, size/2, size/2);
+		arrow.size(2, 1);
+	let trangle = primitive.trangle(1/2, 1/2, 1/2);
 		trangle.transform({
 			rotate: 'rotate(-90deg)',
-			translateX: 'translateX(' + String(-size/4) + trangle.$unit + ')'
+			translateX: 'translateX(' + String(-1/4) + trangle.$unit + ')'
 		})
 	let unit = trangle.$unit;
-	let line = primitive.line(size, size/2, color)
+	let line = primitive.line(1, 1/2)
 		.style({
-			top: size/4 + unit,
-			left: size/2 + unit
+			top: 0.25 + unit,
+			left: 1/2 + unit
 		});
 
 	arrow.use(trangle);
 	arrow.use(line);
 
-	return iconWrap().size(2, 1).use(arrow);
+	return iconWrap().size(2, 1).use(arrow.center());
 });
 
-cssDraw.extend('rightArrow', function (size, color) {
-	let arrow = this.leftArrow(size, color);
+cssDraw.extend('rightArrow', function () {
+	let arrow = this.leftArrow();
 	arrow.style({
 		transform: 'rotate(180deg)'
 	});
+	arrow.x = 0;
+	arrow.y = 0;
 
 	return iconWrap().size(2, 1).use(arrow);
 });
@@ -190,23 +191,21 @@ cssDraw.extend('navLeft', function () {
 			});
 	let line01 = primitive.line(1, 0.2)
 					.style({
-						top: '0.05em',
+						top: '0',
 						left: '0'
 					});
 	let line02 = primitive.line(1, 0.2)
 					.rotate(90)
 					.style({
-						top: '0.45em',
-						left: '0.45em'
-					});
+						top: '0',
+						left: '50%'
+					})
+					.transform({
+						translate: 'translate(42%, 50%)'
+					})
 	_icon.use([line01, line02])
-			.rotate(-135)
-			.transform({
-				scale: 'scale(0.7)',
-				translate: 'translate(0em, 0.7em)'
-			});
-	_icon.y = '0.35em';
-	_icon.x = '-0.25em';
+			.rotate(-135);
+	_icon.x = '0.25em';
 
 	return iconWrap().size(1, 1).use(_icon);
 })
@@ -375,8 +374,7 @@ cssDraw.extend('search', function () {
 		line.y = 1.1;
 
 	_icon.use([circle, line]);
-	_icon.x = -0.25;
-	_icon.y = -0.25;
+	_icon.center();
 	_icon.transform({
 		scale: 'scale(0.5)'
 	})

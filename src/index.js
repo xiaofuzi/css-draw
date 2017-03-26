@@ -44,7 +44,7 @@ const defaultStyle = {
  */
 let uid = 0;
 class Base {
-	constructor (opts = {}, tagName = 'span') {
+	constructor (opts = {}, tagName = 'i') {
 		this.$el = doc.createElement(tagName);
 		this.$unit = 'px';
 		this.$multi = 1;
@@ -251,6 +251,19 @@ class Base {
 		this._transform(opts);
 		return this;
 	}
+
+	center () {
+		this.style({
+			top: '50%',
+			left: '50%'
+		});
+
+		this.transform({
+			translate: 'translate(-50%, -50%)'
+		});
+
+		return this;
+	}
 }
 
 /**
@@ -267,7 +280,8 @@ export class Element extends Base {
 		this.x = 0;
 		this.y = 0;
 		this.style({
-			backgroundColor: 'transparent'
+			backgroundColor: 'transparent',
+			fontSize: 'inherit'
 		});
 	}
 

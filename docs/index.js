@@ -35,7 +35,7 @@ new Vue({
     },
     mounted () {
     	cssDraw.render({
-    		shadowDom: true
+    		shadowDom: false
     	});
     }
 })
