@@ -76,19 +76,26 @@ cssDraw.render();
 * css 动画效果
 
 如何使用？
+
 示例：
-1.动态渲染
-`
+
+1. 动态渲染
+
+```html
 <i data-icon='solidHeart' class="css-icon"></i>
-`
+```
+
 上诉方式需引入 css-draw.js 文件在客户端进行动态渲染。
-2.静态渲染
+
+2. 静态渲染
 
 样式控制：
+
 通过 css 可控制图标大小以及颜色。
-`
+
+```css
 .css-icon {
       font-size: 14px;
       color: #000000;
 }
-`
+```
