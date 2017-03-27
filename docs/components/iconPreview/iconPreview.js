@@ -3,7 +3,7 @@ import cssDraw from '../../../src/cssDraw.js';
 
 function codeWrap (code, lang = 'markup') {
 	code = Prism.highlight(`${code}`, Prism.languages[lang]);
-	return `<pre><code class="language-${lang}">${code}</code></pre>`;
+	return `<pre class="language-${lang}"><code class="language-${lang}">${code}</code></pre>`;
 };
 
 let template = `
@@ -11,11 +11,11 @@ let template = `
 		<h2>{{iconName}}</h2>
 		<hr/>
 		<div style='margin: 10px;' v-html='iconHtml'></div>
-		<h4>There are two ways to use css-icon.</h4>
+		<h4>可以通过如下两种方式使用：</h4>
 		<div>
-			<h5>cssDraw.render()</h5>
+			<h5>1. 动态渲染 [需调用 cssDraw.render() 函数]</h5>
 			<div v-html='renderHtml'></div>
-			<h5>icon html</h5>			
+			<h5>2. 静态渲染 [使用渲染后的 html 源码]</h5>			
 			<div v-html='renderedHtml'></div>
 		</div>
 	</div>
