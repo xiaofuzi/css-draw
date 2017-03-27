@@ -34,8 +34,6 @@ new Vue({
         }
     },
     mounted () {
-    	cssDraw.render({
-    		shadowDom: false
-    	});
+    	cssDraw.render();
     }
 })

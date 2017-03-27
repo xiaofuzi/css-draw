@@ -11,7 +11,7 @@ const defaultStyle = {
 	bgColor: '#ffffff'
 };
 
-function iconWrap (fontSize = '48px') {
+function iconWrap (fontSize = 'inherit') {
 	return new cssDraw.Graph({
 		fontSize: fontSize,
 		background: 'transparent',
