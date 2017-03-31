@@ -1,9 +1,10 @@
 module.exports = {
 	//entry: './src/cssDraw.js',
 	//entry: './src/primitive.js',
-	entry: './docs/index.js',
+	//entry: './docs/index.js',
+	entry: './src/htmlPack.js',
 	output: {
-		path: './docs/dist',
+		path: './dist',
 		filename: '[name].js'
 	},
 	module: {
